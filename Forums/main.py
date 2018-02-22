@@ -31,14 +31,15 @@ def print_all_members(member_store):
     print_members_list(member_store.get_all())
 
 
-print_all_members(member_store)
+# print_all_members(member_store)
 
 def member_by_name(member1, member_store):
     member_name = member_store.get_by_name(member1.name)
     print_members_list(member_name)
 
 
-# member_by_name(member1, member_store)
+member_by_name(member1, member_store)
+
 
 def member_exist(member1, member_store):
     member_exist = member_store.entity_exists(member1)
@@ -76,10 +77,11 @@ def member_delete(member1, member_store):
 
 # member_delete(member1, member_store)
 
+
 def create_posts():
-    post1 = models.Post('hello', 'hello udacity')
-    post2 = models.Post('welcome', 'Welcome World')
-    post3 = models.Post('Hey', 'Hello MAC')
+    post1 = models.Post('hello', 'hello udacity', members_instance[0].id)
+    post2 = models.Post('welcome', 'Welcome World', members_instance[1].id)
+    post3 = models.Post('Hey', 'Hello MAC', members_instance[1].id)
     print('='*30)
     return post1, post2, post3
 
@@ -105,7 +107,7 @@ def print_all_posts(post_store):
     print_posts_list(post_store.get_all())
 
 
-print_all_posts(post_store)
+# print_all_posts(post_store)
 
 def post_by_title(post1, post_store):
     post_title = post_store.get_by_title(post1.title)
@@ -149,3 +151,12 @@ def post_delete(post1, post_store):
 
 
 # post_delete(post1, post_store)
+
+def print_members_with_posts(member_store, post_store):
+    members_posts = member_store.get_all_members_posts(post_store.get_all())
+    for member_post in members_posts:
+        # print(f"{members_posts} has posts:")
+        for post in member_post.posts:
+            print(post)
+
+print_members_with_posts(member_store, post_store)
