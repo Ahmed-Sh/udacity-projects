@@ -19,3 +19,4 @@ class Post:
     def __str__(self):
         return f'Post title : {self.title}\nPost content : {self.content}\nPost id : {self.id}'
 
+
