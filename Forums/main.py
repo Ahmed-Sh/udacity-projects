@@ -1,5 +1,5 @@
 from Forums import models, store
-
+import time
 
 def create_members():
     member1 = models.Member('ahmed', 23)
@@ -38,7 +38,7 @@ def member_by_name(member1, member_store):
     print_members_list(member_name)
 
 
-member_by_name(member1, member_store)
+# member_by_name(member1, member_store)
 
 
 def member_exist(member1, member_store):
@@ -80,8 +80,8 @@ def member_delete(member1, member_store):
 
 def create_posts():
     post1 = models.Post('hello', 'hello udacity', members_instance[0].id)
-    post2 = models.Post('welcome', 'Welcome World', members_instance[1].id)
-    post3 = models.Post('Hey', 'Hello MAC', members_instance[1].id)
+    post2 = models.Post('welcome', 'Welcome World', members_instance[0].id)
+    post3 = models.Post('Hey', 'Hello MAC', members_instance[0].id)
     print('='*30)
     return post1, post2, post3
 
@@ -98,9 +98,11 @@ def add_posts_store(posts_instance, post_store):
 
 add_posts_store(posts_instance, post_store)
 
+
 def print_posts_list(posts_list):
     for post in posts_list:
         print(post)
+        print('*'*30)
 
 
 def print_all_posts(post_store):
@@ -155,8 +157,34 @@ def post_delete(post1, post_store):
 def print_members_with_posts(member_store, post_store):
     members_posts = member_store.get_all_members_posts(post_store.get_all())
     for member_post in members_posts:
-        # print(f"{members_posts} has posts:")
+        print(f"{member_post} has posts:")
         for post in member_post.posts:
             print(post)
+            print('*' * 30)
 
-print_members_with_posts(member_store, post_store)
+
+# print_members_with_posts(member_store, post_store)
+
+
+def print_top_members(member_store, post_store):
+    top_2_members = member_store.get_top_2members(post_store.get_all())
+
+    for top in top_2_members:
+        print(f"{top} has posts:")
+        for post in top.posts:
+            print(f"{post}")
+            print('*' * 30)
+
+
+# print_top_members(member_store, post_store)
+
+
+def print_posts_by_date(post_store):
+    all_posts = post_store.get_posts_by_date()
+    for posts in all_posts:
+        print(posts)
+        time.sleep(2)
+        print('*'*30)
+
+
+print_posts_by_date(post_store)
