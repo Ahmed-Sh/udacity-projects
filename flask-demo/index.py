@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -6,12 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/index")
 def home():
-    return "Hello Everyone"
+    return render_template("index.html")
 
 
-@app.route("/SayHello/<name>")
-def say_hello(name):
-    return f"Hello {name}"
-
-
-app.run()
+app.run(debug=True, port=8000)
