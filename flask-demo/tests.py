@@ -1,4 +1,4 @@
-from Forums import models, store
+import models, store
 import time
 
 def create_members():
