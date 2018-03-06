@@ -1,4 +1,4 @@
-import models
+from myApp import models
 
 dummy_members = [models.Member('ahmed', 30),
                  models.Member('Yasser', 40),

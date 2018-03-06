@@ -1,11 +1,12 @@
-import models, store
+from myApp import models, store
 import time
+
 
 def create_members():
     member1 = models.Member('ahmed', 23)
     member2 = models.Member('osama', 30)
     member3 = models.Member('ahmed', 40)
-    print('='*30)
+    print('=' * 30)
     return member1, member2, member3
 
 
@@ -65,6 +66,7 @@ def member_update(member1, member_store):
         member_store.update(update_member)
         # print(member_store.get_by_id(member1.id))
 
+
 # member_update(member1, member_store)
 
 
@@ -82,7 +84,7 @@ def create_posts():
     post1 = models.Post('hello', 'hello udacity', members_instance[0].id)
     post2 = models.Post('welcome', 'Welcome World', members_instance[0].id)
     post3 = models.Post('Hey', 'Hello MAC', members_instance[0].id)
-    print('='*30)
+    print('=' * 30)
     return post1, post2, post3
 
 
@@ -102,7 +104,7 @@ add_posts_store(posts_instance, post_store)
 def print_posts_list(posts_list):
     for post in posts_list:
         print(post)
-        print('*'*30)
+        print('*' * 30)
 
 
 def print_all_posts(post_store):
@@ -141,6 +143,7 @@ def post_update(post1, post_store):
         print(update_post)
         post_store.update(update_post)
         # print(post_store.get_by_id(post1.id))
+
 
 # post_update(post1, post_store)
 
@@ -184,7 +187,7 @@ def print_posts_by_date(post_store):
     for posts in all_posts:
         print(posts)
         time.sleep(2)
-        print('*'*30)
+        print('*' * 30)
 
 
 print_posts_by_date(post_store)

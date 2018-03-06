@@ -1,11 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
-import models, store, models_data
-
-app = Flask(__name__)
-
-
-member_store = store.MemberStore()
-post_store = store.PostStore()
+from flask import render_template, request, redirect, url_for
+from myApp import app, post_store, models
 
 
 @app.route("/")
@@ -22,8 +16,3 @@ def topic_add():
         return redirect(url_for("home"))
     else:
         return render_template("topic_add.html")
-
-
-if __name__ == '__main__':
-    models_data.add_stores(post_store, member_store)
-    app.run(debug=True, port=8000)
