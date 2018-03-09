@@ -1,11 +1,13 @@
 from flask import Flask
-from myApp import models, store, models_data
+from flaskdemo.myApp import store, models_data
+from flaskdemo.myApp import models
+
 app = Flask(__name__)
 
 
 member_store = store.MemberStore()
 post_store = store.PostStore()
 
-from myApp.views import *
+from flaskdemo.myApp import *
 
 models_data.add_stores(post_store, member_store)

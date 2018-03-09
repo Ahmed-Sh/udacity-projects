@@ -1,4 +1,5 @@
-from myApp import models, store
+from flaskdemo.myApp import store
+from flaskdemo.myApp import models
 import time
 
 
