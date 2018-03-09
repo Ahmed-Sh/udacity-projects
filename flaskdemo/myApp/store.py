@@ -50,7 +50,7 @@ class BaseStore:
 
     def delete(self, id):
         entity = self.get_by_id(id)
-        MemberStore.members.remove(entity)
+        self._data_provider.remove(entity)
 
 
 class MemberStore(BaseStore):
