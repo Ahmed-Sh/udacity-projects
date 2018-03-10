@@ -29,9 +29,11 @@ def topic_add():
 def topic_edit(id):
     post = post_store.get_by_id(id)
     if request.method == "POST":
-        post.title = request.form['title']
-        post.content = request.form['content']
-        post_store.update(post)
+        if post is not None:
+            post.title = request.form['title']
+            post.content = request.form['content']
+            post_store.update(post)
+            return render_template("topic_edit.html", post=post)
         return redirect(url_for("home"))
     else:
         return render_template("topic_edit.html", post=post)
