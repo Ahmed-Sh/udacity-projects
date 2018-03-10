@@ -1,11 +1,4 @@
-<<<<<<< HEAD:flaskdemo/myApp/tests.py
-from flaskdemo.myApp import store
-from flaskdemo.myApp import models
-||||||| merged common ancestors
 from myApp import models, store
-=======
-from flaskdemo.myApp import models, store
->>>>>>> 340af82552b847027ff20608532c5375a56da151:flaskdemo/myApp/tests.py
 import time
 
 

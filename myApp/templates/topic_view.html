@@ -12,7 +12,7 @@
 
 <div class="container">
     <h2 class="text-center">{{post.title}}</h2>
-    <form class="form-horizontal" action="{{url_for('topic_edit', id=post.id)}}" method="POST">
+    <form class="form-horizontal" action="{{url_for('topic_view', id=post.id)}}" method="POST">
         <div class="form-group">
             <label class="control-label col-sm-2" >Content:</label>
             <div class="col-sm-10">
