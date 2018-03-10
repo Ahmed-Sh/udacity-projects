@@ -12,7 +12,9 @@ def home():
 @app.route("/topic/view/<int:id>")
 def topic_view(id):
     post = post_store.get_by_id(id)
-    return render_template("topic_view.html", post=post)
+    if post is not None:
+        return render_template("topic_view.html", post=post)
+    return redirect(url_for("home"))
 
 
 @app.route("/topic/add", methods=["GET", "POST"])
@@ -28,15 +30,15 @@ def topic_add():
 @app.route("/topic/edit/<int:id>", methods=["GET", "POST"])
 def topic_edit(id):
     post = post_store.get_by_id(id)
-    if request.method == "POST":
-        if post is not None:
+    if post is not None:
+        if request.method == "POST":
             post.title = request.form['title']
             post.content = request.form['content']
             post_store.update(post)
             return render_template("topic_edit.html", post=post)
-        return redirect(url_for("home"))
-    else:
-        return render_template("topic_edit.html", post=post)
+        else:
+            return render_template("topic_edit.html", post=post)
+    return redirect(url_for("home"))
 
 
 @app.route("/topic/delete/<int:id>")

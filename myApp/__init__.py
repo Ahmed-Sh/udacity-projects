@@ -8,6 +8,6 @@ member_store = store.MemberStore()
 post_store = store.PostStore()
 
 from myApp.views import *
-
+from myApp.api import *
 
 models_data.add_stores(post_store, member_store)
