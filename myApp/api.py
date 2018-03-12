@@ -39,3 +39,27 @@ def api_topic_update(id):
     try:
         post.title = request_data["title"]
         post.content = request_data["content"]
+        post_store.update(post)
+        result = jsonify(post.__dict__())
+    except KeyError:
+        result = abort(400, f"Couldn't parse request data!")
+    except AttributeError:
+        result = abort(404, f"topic id: {id} doesn't exist")
+
+    return result
+
+
+@app.route("/api/topic/delete/<int:id>")
+def api_topic_delete(id):
+    post = post_store.delete(id)
+    try:
+        result = jsonify(post.__dict__())
+    except AttributeError:
+        result = abort(404, f"topic id: {id} doesn't exist")
+
+    return result
+
+
+@app.errorhandler(400)
+def error_request(error):
+    return jsonify(message=error.description)
