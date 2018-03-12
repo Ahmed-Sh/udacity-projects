@@ -60,4 +60,6 @@ def api_topic_delete(id):
     return result
 
 
-
+@app.error_handlers(400)
+def error_request(error):
+    return jsonify(message=error.description)
