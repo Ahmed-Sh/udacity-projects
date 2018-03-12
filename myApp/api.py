@@ -10,8 +10,8 @@ def api_topic_all():
 
 @app.route("/api/topic/show/<int:id>")
 def api_topic_show(id):
-    post = post_store.get_by_id(id)
     try:
+        post = post_store.get_by_id(id)
         result = jsonify(post.__dict__())
     except AttributeError:
         result = abort(404, f"topic id : {id} not exist")
@@ -49,12 +49,12 @@ def api_topic_update(id):
     return result
 
 
-@app.route("/api/topic/delete/<int:id>")
+@app.route("/api/topic/delete/<int:id>", methods=["DELETE"])
 def api_topic_delete(id):
-    post = post_store.delete(id)
     try:
+        post = post_store.delete(id)
         result = jsonify(post.__dict__())
-    except AttributeError:
+    except ValueError:
         result = abort(404, f"topic id: {id} doesn't exist")
 
     return result
