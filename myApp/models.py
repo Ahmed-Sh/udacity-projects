@@ -1,42 +1,42 @@
-import datetime
+from myApp import db
 
 
-class Member:
+class Member(db.Model):
     """ Members Details Class"""
 
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-        self.id = 0
-        self.posts = []
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    age = db.Column(db.Integer)
+    posts = db.relationship("Post", backref="members")
 
-    def __str__(self):
-        return f'Member Name : {self.name}\nMember Age : {self.age}\nMember id : {self.id}'
+    def __repr__(self):
+        return f'Member id : {self.id}\nMember Name : {self.name}\nMember Age : {self.age}'
 
-    def __dict__(self):
-        return {"id": self.id,
+    def as_dict(self):
+        return {
+                "id": self.id,
                 "name": self.name,
                 "age": self.age,
-                "posts": self.posts}
+                "posts": self.posts,
+                }
 
 
-class Post:
+class Post(db.Model):
     """ Posts Details Class"""
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50))
+    content = db.Column(db.String(250))
+    member_id = db.Column(db.Integer, db.ForeignKey("member.id"))
 
-    def __init__(self, title, content, member_id=0):
-        self.title = title
-        self.content = content
-        self.id = 0
-        self.member_id = member_id
-        self.date = datetime.datetime.now()
+    def __repr__(self):
+        return f'Post id : {self.id}\nPost title : {self.title}\nPost content : {self.content}'
 
-    def __str__(self):
-        return f'Post title : {self.title}\nPost content : {self.content}\nPost id : {self.id}\nPost Date : {self.date}'
-
-    def __dict__(self):
-        return {"id": self.id,
+    def as_dict(self):
+        return {
+                "id": self.id,
                 "title": self.title,
                 "content": self.content,
                 "member_id": self.member_id,
-                "date": self.date}
+                "date": self.date,
+                }
 

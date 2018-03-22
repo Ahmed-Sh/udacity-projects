@@ -1,26 +1,27 @@
-from myApp import models, store
-import time
-
+from myApp import models, store, models_data
 
 def create_members():
-    member1 = models.Member('ahmed', 23)
-    member2 = models.Member('osama', 30)
-    member3 = models.Member('ahmed', 40)
-    print('=' * 30)
+    member1 = models.Member("Mohammed", 20)
+    member2 = models.Member("Mohammed", 22)
+    member3 = models.Member("Abdo", 25)
+    print(member1)
+    print(member2)
+    print(member3)
+    print("=" * 30)
+
     return member1, member2, member3
 
 
-members_instance = create_members()
-member1, member2, member3 = members_instance
-member_store = store.MemberStore()
-
-
-def add_members_store(members_instance, member_store):
-    for member in members_instance:
+def store_should_add_members(members_instances, member_store):
+    for member in members_instances:
         member_store.add(member)
 
 
-add_members_store(members_instance, member_store)
+def stores_should_be_similar():
+    member_store1 = store.MemberStore()
+    member_store2 = store.MemberStore()
+    if member_store1.get_all() is member_store2.get_all():
+        print("Same stores elements !")
 
 
 def print_members_list(members_list):
@@ -29,165 +30,118 @@ def print_members_list(members_list):
 
 
 def print_all_members(member_store):
+    print("=" * 30)
+
     print_members_list(member_store.get_all())
 
-
-# print_all_members(member_store)
-
-def member_by_name(member1, member_store):
-    member_name = member_store.get_by_name(member1.name)
-    print_members_list(member_name)
+    print("=" * 30)
 
 
-# member_by_name(member1, member_store)
+def get_by_id_should_retrieve_same_object(member_store, member2):
+    member2_retrieved = member_store.get_by_id(2)
+
+    if member2 is member2_retrieved:
+        print("member2 and member2_retrieved are matching !")
 
 
-def member_exist(member1, member_store):
-    member_exist = member_store.entity_exists(member1)
-    print(member_exist)
+def update_should_modify_object(member_store, member3):
+    member3_copy = models.Member.query.get(3)
+
+    print(member3_copy)
+    member3_copy.name = "John"
+    member_store.update(member3_copy)
+    print(member_store.get_by_id(member3.id))
 
 
-# member_exist(member1, member_store)
+def store_should_get_members_by_name(member_store):
+
+    print("*" * 30)
+    print("Getting by name:")
+    members_by_name_retrieved = member_store.get_by_name("Mohammed")
+    print_members_list(members_by_name_retrieved)
 
 
-def member_by_id(member3, member_store):
-    member_id = member_store.get_by_id(member3.id)
-    print(f'{member_id}')
-
-
-# member_by_id(member3, member_store)
-
-
-def member_update(member1, member_store):
-    update_member = models.Member(member1.name, member1.age)
-    update_member.name = 'ahmed'
-    if member1 is not update_member:
-        print(update_member)
-        member_store.update(update_member)
-        # print(member_store.get_by_id(member1.id))
-
-
-# member_update(member1, member_store)
-
-
-def member_delete(member1, member_store):
+def catch_exception_when_deleting():
     try:
-        member_store.delete(member1.id)
+        member_store.delete(5)
     except ValueError:
-        print('Member Not Found to delete.')
+        print("It should be an existence entity before deleting !")
 
 
-# member_delete(member1, member_store)
+def create_posts(members_instances):
+
+    post1 = models.Post("Agriculture", "Agriculture is amazing", members_instances[0].id)
+    post2 = models.Post("Engineering", "I love engineering", members_instances[0].id)
+
+    post3 = models.Post("Medicine", "Medicine is great", members_instances[1].id)
+    post4 = models.Post("Architecture", "Spectacular art", members_instances[1].id)
+    post5 = models.Post("Astronomy", "Space is awesome", members_instances[1].id)
+
+    post6 = models.Post("Geology", "Earth is our friend", members_instances[2].id)
+    post7 = models.Post("ComputerSci", "Our passion", members_instances[2].id)
+    post8 = models.Post("Algorithms", "Yeah, more of that", members_instances[2].id)
+    post9 = models.Post("Operating Systems", "Ewww", members_instances[2].id)
+
+    print(post1)
+    print(post2)
+    print(post3)
+    print("=" * 30)
+
+    return post1, post2, post3, post4, post5, post6, post7, post8, post9
 
 
-def create_posts():
-    post1 = models.Post('hello', 'hello udacity', members_instance[0].id)
-    post2 = models.Post('welcome', 'Welcome World', members_instance[0].id)
-    post3 = models.Post('Hey', 'Hello MAC', members_instance[0].id)
-    print('=' * 30)
-    return post1, post2, post3
+def store_should_add_posts(posts_instances, post_store):
+    for member in posts_instances:
+        post_store.add(member)
 
 
-posts_instance = create_posts()
-post1, post2, post3 = posts_instance
+def store_should_get_members_with_posts(member_store):
+    members_with_posts = member_store.get_members_with_posts()
+
+    for member_with_posts in members_with_posts:
+        print(f"{member_with_posts} has posts:")
+        for post in member_with_posts.posts:
+            print(f"\t{post}")
+
+        print("=" * 10)
+
+
+def store_should_get_top_two(member_store):
+    top_two_members = member_store.get_top_two()
+
+    for member_with_posts in top_two_members:
+        print(f"{member_with_posts} has posts:")
+        for post in member_with_posts.posts:
+            print(f"\t{post}")
+
+
+member_store = store.MemberStore()
 post_store = store.PostStore()
 
+members_instances = models_data.dummy_members
+member1, member2, member3 = members_instances
 
-def add_posts_store(posts_instance, post_store):
-    for post in posts_instance:
-        post_store.add(post)
+posts_instances = models_data.dummy_posts
+post1, post2, post3, post4, post5, post6, post7, post8, post9 = posts_instances
 
+store_should_add_members(members_instances, member_store)
+#
+# stores_should_be_similar()
+#
+# print_all_members(member_store)
+#
+# get_by_id_should_retrieve_same_object(member_store, member2)
+#
+# update_should_modify_object(member_store, member3)
+#
+# catch_exception_when_deleting()
+#
+# print_all_members(member_store)
+#
+# store_should_get_members_by_name(member_store)
+#
+# store_should_add_posts(posts_instances, post_store)
+#
+# store_should_get_members_with_posts(member_store)
 
-add_posts_store(posts_instance, post_store)
-
-
-def print_posts_list(posts_list):
-    for post in posts_list:
-        print(post)
-        print('*' * 30)
-
-
-def print_all_posts(post_store):
-    print_posts_list(post_store.get_all())
-
-
-# print_all_posts(post_store)
-
-def post_by_title(post1, post_store):
-    post_title = post_store.get_by_title(post1.title)
-    print_posts_list(post_title)
-
-
-# post_by_title(post1, post_store)
-
-def post_exist(post1, post_store):
-    post_exist = post_store.entity_exists(post1)
-    print(post_exist)
-
-
-# post_exist(post1, post_store)
-
-
-def post_by_id(post3, post_store):
-    post_id = post_store.get_by_id(post3.id)
-    print(f'{post_id}')
-
-
-# post_by_id(post3, post_store)
-
-
-def post_update(post1, post_store):
-    update_post = models.Post(post1.title, post1.content)
-    update_post.title = 'Welcome Egypt'
-    if post1 is not update_post:
-        print(update_post)
-        post_store.update(update_post)
-        # print(post_store.get_by_id(post1.id))
-
-
-# post_update(post1, post_store)
-
-
-def post_delete(post1, post_store):
-    try:
-        post_store.delete(6)
-    except ValueError:
-        print('Post Not Found to delete.')
-
-
-# post_delete(post1, post_store)
-
-def print_members_with_posts(member_store, post_store):
-    members_posts = member_store.get_all_members_posts(post_store.get_all())
-    for member_post in members_posts:
-        print(f"{member_post} has posts:")
-        for post in member_post.posts:
-            print(post)
-            print('*' * 30)
-
-
-# print_members_with_posts(member_store, post_store)
-
-
-def print_top_members(member_store, post_store):
-    top_2_members = member_store.get_top_2members(post_store.get_all())
-
-    for top in top_2_members:
-        print(f"{top} has posts:")
-        for post in top.posts:
-            print(f"{post}")
-            print('*' * 30)
-
-
-# print_top_members(member_store, post_store)
-
-
-def print_posts_by_date(post_store):
-    all_posts = post_store.get_posts_by_date()
-    for posts in all_posts:
-        print(posts)
-        time.sleep(2)
-        print('*' * 30)
-
-
-print_posts_by_date(post_store)
+#store_should_get_top_two(member_store)
